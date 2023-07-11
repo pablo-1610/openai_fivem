@@ -1,10 +1,10 @@
-local OpenAI = {}
+local OpenAI = {busy = false}
 
 local function validateApiKeyThroughBasicRequest()
     local p <const> = promise.new()
     PerformHttpRequest("https://api.openai.com/v1/models", function(code)
         p:resolve(code == 200)
-    end, "GET", nil, OpenAI.getRequestHeader())
+    end, ERequestMethod.GET, nil, OpenAI.getRequestHeader())
     return Citizen.Await(p)
 end
 
@@ -24,13 +24,17 @@ end
 CreateThread(function()
     OpenAI.apiKey = GetConvar("openai_api_key", "")
     if (OpenAI.apiKey == "") then
-        return OpenAI.trace("No API key defined, you need to define your OpenAI API key with the ^9openai_api_key ^7server convar !", true)
+        return OpenAI.trace("No API key defined, you need to define your OpenAI API key with the ^9openai_api_key ^7server convar (^4https://platform.openai.com/account/api-keys^7).", true)
     end
     if (not validateApiKeyThroughBasicRequest()) then
-        return OpenAI.trace("Invalid API key, please check your OpenAI API key ! (^4https://platform.openai.com/account/api-keys^7)", true)
+        return OpenAI.trace("Invalid API key, please check your OpenAI API key ! (^4https://platform.openai.com/account/api-keys^7).", true)
     end
     OpenAI.trace("OpenAI API key ^2validated^7 !")
 end)
 
--- Export
+-- Exports
+function isBusy()
+    return OpenAI.busy
+end
+
 _G.OpenAI = OpenAI
