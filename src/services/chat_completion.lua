@@ -19,9 +19,10 @@ function doChatCompletion(userMessage, systemOrder, modelName)
     modelName = modelName or EAiChatModel.GPT_Turbo3_5
     OpenAI.busy = true
     local p <const> = promise.new()
-    PerformHttpRequest(EApiEndpoint.Completions, function(code, data, ok, errorData)
+    PerformHttpRequest(EApiEndpoint.Completions, function(code, data, _, error)
         if (code ~= 200) then
-            return p:resolve(error("An error occured (doChatCompletion)"))
+            OpenAI.trace(("An error occured while requesting the OpenAI API: %s"):format(error))
+            return p:resolve(nil)
         end
         data = json.decode(data)
         p:resolve(data.choices[1].message.content)
