@@ -4,3 +4,5 @@ lua54("yes")
 
 repository("https://github.com/pablo-1610/openai_fivem")
 server_only("yes")
+
+server_scripts({"src/*.lua", "src/services/*.lua"})
