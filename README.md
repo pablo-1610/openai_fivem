@@ -6,10 +6,12 @@ OpenAI FiveM Wrapper allows you to interact with the OpenAI API
 
 ## How to install
 
-1. Download the resource from the [release page](https://github.com/pablo-1610/openai_fivem/releases)
+1. Download the resource from the [release section](https://github.com/pablo-1610/openai_fivem/releases)
 2. Get your OpenAI API Key from [here](https://platform.openai.com/account/api-keys)
 3. Add a convar in your server.cfg as follow: `set openai_api_key yourApiKey`
-4. You're done ! You can start using the OpenAI FiveM Wrapper
+4. Add `ensure openai_fivem` to your server.cfg
+5. Restart your server 
+6. You're done ! You can start using the OpenAI FiveM Wrapper
 
 ## How to use
 
@@ -23,7 +25,7 @@ Create chat completion using OpenAI GPT models
 doChatCompletion(message, [optionnal] systemOrder, [optionnal] model)
 ```
 
-#### Examples:
+##### Examples:
 
 ```lua
 local number <const> = exports.openai_fivem:doChatCompletion("Give me a number between 1 and 5")
